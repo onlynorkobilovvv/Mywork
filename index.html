@@ -1,0 +1,108 @@
+<style>
+  body{
+    font-family: Arial, sans-serif;
+    background-color: #100f0f;
+    display: flex;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+  }
+  .card{
+    background-color: #1e1e1e;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+  h2{
+    margin-top: 0;
+    text-align: center;
+  }
+  .search-box{
+    display: flex;
+    gap: 10px;
+  }
+  input{
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+  }
+  button{
+    padding: 12px 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  button:hover{
+    background-color: #45a049;
+  }
+  .results{
+    margin-top: 20px;
+    padding: 10px;
+    min-height: 50px;
+    background-color: #2e2e2e;
+    border-radius: 10px;
+  }
+  .item{
+    padding: 8px;
+    border-bottom: 1px solid #444;
+  }
+  .item:last-child{
+    border-bottom: none;
+  }
+  .not-found{
+    text-align: center;
+    color: #ff4c4c;
+  }
+</style>
+<div class="card">
+  <h2>Search in Array</h2>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Ism yoki familiya kiriting...">
+    <button onclick="search()">Qidirish</button>
+  </div>
+  <div class="results" id="results"></div>
+</div>
+<script>
+  const people = [
+    "Ali Valiyev",
+    "Hasan Karimov",
+    "Leyla Mammadova",
+    "Elvin Huseynov",
+    "Nigar Aliyeva",
+    "Rashad Guliyev",
+    "Aysel Ismayilova",
+    "Tural Abbasov",
+    "Gunel Mammadli",
+    "Elnur Jafarov"
+  ];
+  function search() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    const resultsContainer = document.getElementById("results");
+    resultsContainer.innerHTML = "";
+    
+    if (query === "") {
+      resultsContainer.innerHTML = "<div class='not-found'>Iltimos, qidiruv so'zini kiriting.</div>";
+      return;
+    }
+    
+    const filteredPeople = people.filter(person => person.toLowerCase().includes(query));
+    
+    if (filteredPeople.length > 0) {
+      filteredPeople.forEach(person => {
+        const item = document.createElement("div");
+        item.className = "item";
+        item.textContent = person;
+        resultsContainer.appendChild(item);
+      });
+    } else {
+      resultsContainer.innerHTML = "<div class='not-found'>Hech narsa topilmadi.</div>";
+    }
+  }
+</script>
