@@ -125,6 +125,9 @@
        -6px -6px 12px var(--light);
       transition: all 0.3s ease;
       gap: 12px;
+      /* 🔴 TUZATISH 1: ANIMATSIYA UCHUN INITIAL STATE */
+      opacity: 1;
+      transform: translateY(0);
     }
 
     li:hover {
@@ -139,6 +142,7 @@
         inset 4px 4px 8px var(--dark),
         inset -4px -4px 8px var(--light);
       color: #7f8c8d;
+      text-decoration: line-through;
     }
 
     .checkbox {
@@ -146,11 +150,13 @@
       height: 22px;
       accent-color: var(--accent);
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     .task-text {
       flex: 1;
       font-size: 1.05rem;
+      word-break: break-word;
     }
 
     .delete-btn {
@@ -166,6 +172,7 @@
         3px 3px 8px rgba(255,118,117,0.4),
        -3px -3px 8px rgba(255,255,255,0.6);
       transition: all 0.2s ease;
+      flex-shrink: 0;
     }
 
     .delete-btn:hover {
@@ -185,6 +192,11 @@
       margin-top: 40px;
       font-size: 1.1rem;
     }
+    li {
+      /* ... other styles ... */
+      opacity: 1;              /* ✅ Initial state */
+      transform: translateY(0); /* ✅ Initial state */
+    }
   </style>
 </head>
 <body>
@@ -199,7 +211,7 @@
 
     <ul id="taskList"></ul>
 
-    <div id="emptyMessage" class="empty">Hozircha vazifalar yo‘q... 🌿</div>
+    <div id="emptyMessage" class="empty">Hozircha vazifalar yo'q... 🌿</div>
   </div>
 
   <script>
@@ -230,6 +242,7 @@
       delBtn.className = 'delete-btn';
       delBtn.textContent = '×';
       delBtn.onclick = () => {
+        /* 🔴 TUZATISH 2: ANIMATSIYA BILAN O'CHIRISH */
         li.style.opacity = '0';
         li.style.transform = 'translateY(10px)';
         setTimeout(() => {
@@ -241,9 +254,11 @@
       li.append(check, span, delBtn);
       taskList.appendChild(li);
 
-      // animatsiya bilan paydo bo'lish
+      /* 🔴 TUZATISH 3: PAYDO BO'LISH ANIMATSIYASI */
       li.style.opacity = '0';
       li.style.transform = 'translateY(15px)';
+      
+      // Force reflow uchun setTimeout
       setTimeout(() => {
         li.style.opacity = '1';
         li.style.transform = 'translateY(0)';
@@ -259,7 +274,16 @@
         emptyMsg.style.display = 'block';
       }
     }
+
     taskInput.focus();
+    delBtn.onclick = () => {
+  li.style.opacity = '0';
+  li.style.transform = 'translateY(10px)';
+  setTimeout(() => {
+    li.remove();  // ✅ Animation tugagach o'chirish
+    checkEmpty();
+  }, 300); // CSS transition vaqti bilan mos
+};
   </script>
 
 </body>
