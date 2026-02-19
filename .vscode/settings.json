@@ -1,0 +1,6 @@
+{
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 500,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "liveServer.settings.port": 5501
+}

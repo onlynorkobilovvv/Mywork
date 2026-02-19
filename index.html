@@ -1,290 +1,134 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Neumorphic Todo — Yumshoq Ro'yxat</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buyurtmalar ro'yxati</title>
   <style>
-    :root {
-      --bg: #e0e5ec;
-      --light: #ffffff;
-      --dark:  #a3b1c6;
-      --text:  #2c3e50;
-      --accent: #6c5ce7;
-      --accent-dark: #5a4bc7;
+    *{
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+        background-color: #f0f0f0;
+        padding: 20px;
     }
-
-    .container {
-      width: 100%;
-      max-width: 480px;
-      background: var(--bg);
-      border-radius: 24px;
-      padding: 32px 24px;
-      box-shadow: 
-        12px 12px 24px var(--dark),
-       -12px -12px 24px var(--light);
+    h2 {
+        color: #333;
+        margin-bottom: 20px;
     }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 28px;
-      font-size: 2.1rem;
-      color: var(--text);
-      letter-spacing: -0.5px;
+    input {
+        padding: 10px;
+        margin-right: 10px;
+        border-radius: 4px;
+        border: 2px solid #ccc;
     }
-
-    .input-wrap {
-      position: relative;
-      margin-bottom: 24px;
+    button {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 1s ease;
     }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 16px 20px;
-      font-size: 1.05rem;
-      background: var(--bg);
-      border: none;
-      border-radius: 16px;
-      box-shadow: 
-        inset 4px 4px 8px var(--dark),
-        inset -4px -4px 8px var(--light);
-      color: var(--text);
-      transition: all 0.25s ease;
+    button:hover {
+        transform: scale(1.1);
+        background-color: #218838;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
-
-    input[type="text"]:focus {
-      outline: none;
-      box-shadow: 
-        inset 2px 2px 5px var(--dark),
-        inset -2px -2px 5px var(--light),
-        0 0 0 3px rgba(108, 92, 231, 0.2);
-    }
-
-    .add-btn {
-      position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: none;
-      background: var(--accent);
-      color: white;
-      font-size: 1.6rem;
-      line-height: 1;
-      cursor: pointer;
-      box-shadow: 
-        4px 4px 10px rgba(0,0,0,0.15),
-       -4px -4px 10px rgba(255,255,255,0.7);
-      transition: all 0.2s ease;
-    }
-
-    .add-btn:hover {
-      background: var(--accent-dark);
-      transform: translateY(-50%) scale(1.08);
-    }
-
-    .add-btn:active {
-      box-shadow: 
-        inset 4px 4px 10px rgba(0,0,0,0.2),
-        inset -2px -2px 6px rgba(255,255,255,0.4);
-      transform: translateY(-50%) scale(0.96);
-    }
-
     ul {
-      list-style: none;
-    }
-
-    li {
-      display: flex;
-      align-items: center;
-      background: var(--bg);
-      margin-bottom: 16px;
-      padding: 16px 20px;
-      border-radius: 16px;
-      box-shadow: 
-        6px 6px 12px var(--dark),
-       -6px -6px 12px var(--light);
-      transition: all 0.3s ease;
-      gap: 12px;
-      /* 🔴 TUZATISH 1: ANIMATSIYA UCHUN INITIAL STATE */
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    li:hover {
-      transform: translateY(-3px);
-      box-shadow: 
-        10px 10px 20px var(--dark),
-       -10px -10px 20px var(--light);
-    }
-
-    li.completed {
-      box-shadow: 
-        inset 4px 4px 8px var(--dark),
-        inset -4px -4px 8px var(--light);
-      color: #7f8c8d;
-      text-decoration: line-through;
-    }
-
-    .checkbox {
-      width: 22px;
-      height: 22px;
-      accent-color: var(--accent);
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .task-text {
-      flex: 1;
-      font-size: 1.05rem;
-      word-break: break-word;
-    }
-
-    .delete-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: none;
-      background: #ff7675;
-      color: white;
-      font-size: 1.1rem;
-      cursor: pointer;
-      box-shadow: 
-        3px 3px 8px rgba(255,118,117,0.4),
-       -3px -3px 8px rgba(255,255,255,0.6);
-      transition: all 0.2s ease;
-      flex-shrink: 0;
-    }
-
-    .delete-btn:hover {
-      background: #e65b5a;
-      transform: scale(1.1);
-    }
-
-    .delete-btn:active {
-      box-shadow: inset 3px 3px 8px rgba(0,0,0,0.2);
-      transform: scale(0.92);
-    }
-
-    .empty {
-      text-align: center;
-      color: #95a5a6;
-      font-style: italic;
-      margin-top: 40px;
-      font-size: 1.1rem;
+        list-style-type: none;
+        margin-top: 20px;
     }
     li {
-      /* ... other styles ... */
-      opacity: 1;              /* ✅ Initial state */
-      transform: translateY(0); /* ✅ Initial state */
+        background-color: white;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        cursor: pointer;
+    }
+    p {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 20px;
+        cursor: pointer;
     }
   </style>
 </head>
 <body>
+  <h2>🍽️ Buyurtmalar ro'yxati</h2>
+  
+  <!-- Input va tugma -->
+  <input id="ismInput" type="text" placeholder="Ismni kiriting">
+  <input id="taomInput" type="text" placeholder="Taomni kiriting">
+  <input id="narxInput" type="number" placeholder="Narxni kiriting">
+  <button id="qo‘shBtn">Buyurtma qo‘sh</button>
 
-  <div class="container">
-    <h1>Neumorphic Todo</h1>
-
-    <div class="input-wrap">
-      <input type="text" id="taskInput" placeholder="Yangi vazifa..." autofocus>
-      <button class="add-btn" onclick="addTask()">+</button>
-    </div>
-
-    <ul id="taskList"></ul>
-
-    <div id="emptyMessage" class="empty">Hozircha vazifalar yo'q... 🌿</div>
-  </div>
+  <!-- Ro'yxat va umumiy hisob -->
+  <ul id="buyurtmaList"></ul>
+  <p id="jami"></p>
 
   <script>
-    const taskInput = document.getElementById('taskInput');
-    const taskList   = document.getElementById('taskList');
-    const emptyMsg   = document.getElementById('emptyMessage');
+    let dostlar = [
+      { ism: "Ali", taom: "Shashlik", narx: 15000 },
+      { ism: "Vali", taom: "Lag‘mon", narx: 12000 }
+    ];
 
-    taskInput.addEventListener('keypress', e => {
-      if (e.key === 'Enter') addTask();
-    });
+    let royxat = document.getElementById("buyurtmaList");
+    let jami = document.getElementById("jami");
 
-    function addTask() {
-      const text = taskInput.value.trim();
-      if (!text) return;
+    // Ro'yxatni yangilash funksiyasi
+    function royxatniYangila() {
+      royxat.innerHTML = ""; // eski ro'yxatni tozalash
+      dostlar.map(function(dost) {
+        let li = document.createElement("li");
+        li.textContent = dost.ism + " " + dost.taom + " buyurtma qildi. Narxi: " + dost.narx + " so'm";
+        royxat.appendChild(li);
+      });
 
-      const li = document.createElement('li');
-
-      const check = document.createElement('input');
-      check.type = 'checkbox';
-      check.className = 'checkbox';
-      check.onchange = () => li.classList.toggle('completed');
-
-      const span = document.createElement('span');
-      span.className = 'task-text';
-      span.textContent = text;
-
-      const delBtn = document.createElement('button');
-      delBtn.className = 'delete-btn';
-      delBtn.textContent = '×';
-      delBtn.onclick = () => {
-        /* 🔴 TUZATISH 2: ANIMATSIYA BILAN O'CHIRISH */
-        li.style.opacity = '0';
-        li.style.transform = 'translateY(10px)';
-        setTimeout(() => {
-          li.remove();
-          checkEmpty();
-        }, 300);
-      };
-
-      li.append(check, span, delBtn);
-      taskList.appendChild(li);
-
-      /* 🔴 TUZATISH 3: PAYDO BO'LISH ANIMATSIYASI */
-      li.style.opacity = '0';
-      li.style.transform = 'translateY(15px)';
-      
-      // Force reflow uchun setTimeout
-      setTimeout(() => {
-        li.style.opacity = '1';
-        li.style.transform = 'translateY(0)';
-      }, 10);
-
-      taskInput.value = '';
-      taskInput.focus();
-      emptyMsg.style.display = 'none';
+      let umumiy = dostlar.reduce(function(sum, dost) {
+        return sum + dost.narx;
+      }, 0);
+      jami.innerHTML = "💵 Umumiy hisob: " + umumiy + " so'm";
     }
 
-    function checkEmpty() {
-      if (taskList.children.length === 0) {
-        emptyMsg.style.display = 'block';
+    // Boshlang'ich ro'yxat
+    royxatniYangila();
+
+    // Yangi buyurtma qo‘shish
+    document.getElementById("qo‘shBtn").onclick = function() {
+      let ism = document.getElementById("ismInput").value.trim();
+      let taom = document.getElementById("taomInput").value.trim();
+      let narx = parseInt(document.getElementById("narxInput").value);
+
+      if (ism && taom && narx) {
+        dostlar.push({ ism: ism, taom: taom, narx: narx });
+        royxatniYangila();
+      } else {
+        alert("Iltimos, barcha maydonlarni to‘ldiring!");
       }
-    }
-
-    taskInput.focus();
-    delBtn.onclick = () => {
-  li.style.opacity = '0';
-  li.style.transform = 'translateY(10px)';
-  setTimeout(() => {
-    li.remove();  // ✅ Animation tugagach o'chirish
-    checkEmpty();
-  }, 300); // CSS transition vaqti bilan mos
-};
+    };
+    getElementById(ismInput).addEventListener("keypress", function(event) {
+        this.style.borderColor = "green";
+      if (event.key === "Enter") {
+        document.getElementById("qo‘shBtn").click();
+      }
+    });
+     getElementById(taomInput).addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        document.getElementById("qo‘shBtn").click();
+      }
+    });
+     getElementById(narxInput).addEventListener("keypress", function(event) {
+        this.style.borderColor = "green";
+      if (event.key === "Enter") {
+        document.getElementById("qo‘shBtn").click();
+      }
+    });
   </script>
-
 </body>
 </html>
